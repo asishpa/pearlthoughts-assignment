@@ -10,7 +10,7 @@ terraform {
     bucket         = "devsecops-bucketone"
     region         = "ap-south-1"
     key            = "ecs/terraform.tfstate"
-    dynamodb_table = "devsecops-dynamodb-table"
+    dynamodb_table = "terraform-bucket-pearl"
     encrypt        = true
   }
 }
