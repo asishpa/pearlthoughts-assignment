@@ -17,7 +17,6 @@ COPY medusa-store/. .
 EXPOSE 7001
 
 
-
 # Build the application (if needed)
 RUN npm run build
 

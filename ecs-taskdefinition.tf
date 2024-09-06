@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "medusa_task" {
       environment = [
         {
           name  = "DATABASE_URL"
-          value = "postgresql://medusa-db_owner:oOQz0jc9XnqC@ep-holy-salad-a5nn97r0-pooler.us-east-2.aws.neon.tech/medusa-db?sslmode=require"
+          value = "postgresql://medusa-db_owner:xxx@ep-holy-salad-a5nn97r0-pooler.us-east-2.aws.neon.tech/medusa-db?sslmode=require"
         },
         {
           name  = "JWT_SECRET"
