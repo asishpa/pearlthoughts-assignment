@@ -5,13 +5,13 @@ FROM node:18
 WORKDIR /app
 
 # Copy package.json and package-lock.json into the container
-COPY package*.json ./
+COPY medusa-store/package*.json ./
 
 # Install Medusa CLI globally and dependencies
 RUN npm install -g @medusajs/medusa-cli && npm install
 
 # Copy the rest of the application code
-COPY . .
+COPY medusa-store/. .
 
 # Expose the Medusa server port
 EXPOSE 7001
