@@ -7,10 +7,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "devsecops-bucketone"
-    region         = "ap-south-1"
+    bucket         = "terraform-bucket-pearl"
+    region         = "us-east-1"
     key            = "ecs/terraform.tfstate"
-    dynamodb_table = "terraform-bucket-pearl"
+    dynamodb_table = "devsecops-dynamodb-table"
     encrypt        = true
   }
 }
