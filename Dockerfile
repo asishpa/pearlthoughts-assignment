@@ -16,8 +16,6 @@ COPY medusa-store/. .
 # Expose the Medusa server port
 EXPOSE 7001
 
-# Set environment variables (replace these values with actual secrets in production)
-ENV DATABASE_URL="postgresql://medusa-db_owner:oOQz0jc9XnqC@ep-holy-salad-a5nn97r0-pooler.us-east-2.aws.neon.tech/medusa-db?sslmode=require"
 
 
 # Build the application (if needed)
