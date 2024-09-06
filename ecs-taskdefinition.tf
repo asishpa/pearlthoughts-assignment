@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "medusa_task" {
   container_definitions = jsonencode([
     {
       name        = "medusa-container"
-      image       = "${var.docker_hub_username}/medusa-backend:latest"  # Placeholder or default value
+      image       = "asishdevops/medusa-backend:latest"  # Placeholder or default value
       portMappings = [
         {
           containerPort = 9000
@@ -21,15 +21,15 @@ resource "aws_ecs_task_definition" "medusa_task" {
       environment = [
         {
           name  = "DATABASE_URL"
-          value = var.database_url
+          value = ""
         },
         {
           name  = "JWT_SECRET"
-          value = var.jwt_secret
+          value = "jwtsecret"
         },
         {
           name  = "COOKIE_SECRET"
-          value = var.cookie_secret
+          value = "cookiesecret"
         },
         {
           name  = "NODE_ENV"
