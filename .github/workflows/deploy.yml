@@ -3,7 +3,7 @@ name: Deploy Medusa
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
