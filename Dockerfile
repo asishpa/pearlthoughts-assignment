@@ -3,11 +3,11 @@ FROM node:20-alpine3.17 AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY medusa-store/package.json medusa-store/package-lock.json ./
 
 RUN npm ci
 
-COPY . .
+COPY medusa-store/. .
 
 RUN npm run build
 
