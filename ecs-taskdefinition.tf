@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "medusa_task" {
     {
       name        = "medusa-container"
       # Directly reference the image URI from the environment
-      image       = "${var.IMAGE_URI}"  # Use the image URI passed from GitHub Actions
+      image = var.IMAGE_URI  # Use the image URI passed from GitHub Actions
       portMappings = [
         {
           containerPort = 9000
