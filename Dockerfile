@@ -1,24 +1,23 @@
-# Use Node.js as the base image
-FROM node:18
+# Stage 1: Build the application
+FROM node:20-alpine3.17 AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json into the container
-COPY medusa-store/package*.json ./
+COPY package.json package-lock.json ./
 
-# Install Medusa CLI globally and dependencies
-RUN npm install -g @medusajs/medusa-cli && npm install
+RUN npm ci
 
-# Copy the rest of the application code
-COPY medusa-store/. .
+COPY . .
 
-# Expose the Medusa server port
-EXPOSE 7001
-
-
-# Build the application (if needed)
 RUN npm run build
 
-# Command to start the Medusa server
-CMD ["medusa", "start"]
+# Stage 2: Create the production image
+FROM node:20-alpine3.17
+
+WORKDIR /app
+
+COPY --from=builder /app .
+
+EXPOSE 5000
+
+CMD ["npm", "start"]

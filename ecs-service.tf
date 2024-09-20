@@ -4,21 +4,15 @@ resource "aws_ecs_service" "medusa_service" {
   task_definition = aws_ecs_task_definition.medusa_task.arn
   desired_count   = 1
   launch_type     = "FARGATE"
-  
-  load_balancer {
-    target_group_arn = aws_lb_target_group.medusa_tg.arn
-    container_name   = "medusa-container"  # Ensure this matches the name defined in your task definition
-    container_port   = 9000
-  }
 
   network_configuration {
-    subnets          = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
-    security_groups  = [aws_security_group.ecs_sg.id]
+    subnets          = aws_subnet.public_subnet[*].id
+    security_groups  = [aws_security_group.ecs_security_group.id]
     assign_public_ip = true
   }
 
-  # Ensure dependencies are managed
-  depends_on = [
-    aws_lb_listener.http_listener
-  ]
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 1
+  }
 }

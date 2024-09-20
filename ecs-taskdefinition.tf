@@ -10,7 +10,8 @@ resource "aws_ecs_task_definition" "medusa_task" {
   container_definitions = jsonencode([
     {
       name        = "medusa-container"
-      image       = "asishdevops/medusa-backend:latest"  # Placeholder or default value
+      # Directly reference the image URI from the environment
+      image       = "${var.IMAGE_URI}"  # Use the image URI passed from GitHub Actions
       portMappings = [
         {
           containerPort = 9000

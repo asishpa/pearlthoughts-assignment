@@ -15,26 +15,36 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-    
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  
+        aws-region: us-east-1
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/medusa-backend:latest
+    - name: Build, Tag, and Push Docker image to ECR
+      run: |
+        REPOSITORY_NAME=medusa-backend
+        IMAGE_TAG=latest
+
+        # Get the AWS account ID and region
+        ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+        REGION=us-east-1
+
+        # Define the full image URI
+        IMAGE_URI=$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME:$IMAGE_TAG
+
+        # Build the Docker image and tag it
+        docker build -t $REPOSITORY_NAME .
+        docker tag $REPOSITORY_NAME:latest $IMAGE_URI
+
+        # Push the image to ECR
+        docker push $IMAGE_URI
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
@@ -45,8 +55,8 @@ jobs:
       run: terraform init
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -lock=false
-
+      run: terraform apply -auto-approve
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        IMAGE_URI: $IMAGE_URI
