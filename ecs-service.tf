@@ -6,8 +6,8 @@ resource "aws_ecs_service" "medusa_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = aws_subnet.public_subnet[*].id
-    security_groups  = [aws_security_group.ecs_security_group.id]
+    subnets          = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]  # Correct reference
+    security_groups  = [aws_security_group.ecs_sg.id]                    # Correct reference
     assign_public_ip = true
   }
 
