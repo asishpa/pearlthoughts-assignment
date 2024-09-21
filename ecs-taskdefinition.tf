@@ -10,8 +10,7 @@ resource "aws_ecs_task_definition" "medusa_task" {
   container_definitions = jsonencode([
     {
       name        = "medusa-container"
-      # Directly reference the image URI from the environment
-      image = var.IMAGE_URI  # Use the image URI passed from GitHub Actions
+      image = var.IMAGE_URI  
       portMappings = [
         {
           containerPort = 9000
@@ -22,7 +21,7 @@ resource "aws_ecs_task_definition" "medusa_task" {
       environment = [
         {
           name  = "DATABASE_URL"
-          value = "postgresql://medusa-db_owner:xxx@ep-holy-salad-a5nn97r0-pooler.us-east-2.aws.neon.tech/medusa-db?sslmode=require"
+          value = "postgresql://neondb_owner:QTlaGq5L0jJA@ep-summer-night-a5ysogbb.us-east-2.aws.neon.tech/neondb?sslmode=require"
         },
         {
           name  = "JWT_SECRET"
