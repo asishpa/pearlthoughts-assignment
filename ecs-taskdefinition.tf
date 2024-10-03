@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "medusa_task" {
       environment = [
         {
           name  = "DATABASE_URL"
-          value = "postgresql://neondb_owner:QTlaGq5L0jJA@ep-summer-night-a5ysogbb.us-east-2.aws.neon.tech/neondb?sslmode=require"
+          value = "postgresql://neondb_owner:Rjg1nlwc9tIM@ep-summer-night-a5ysogbb-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
         },
         {
           name  = "JWT_SECRET"
